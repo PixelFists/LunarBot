@@ -18,18 +18,32 @@ class Manager(commands.Cog, name="Manager",
 
     @commands.command(name='load', help="Loads an extension.")
     @commands.is_owner()
-    async def load(self, ctx: commands.Context, extension):
-        extension = self.shorten_ext(extension)
+    async def load(self, ctx: commands.Context, extension: str):
+        try:
+            self.client.load_extension(f'cogs.{self.shorten_ext(extension)}')
+            await ctx.send(f"Loaded {extension}")
+        except commands.ExtensionAlreadyLoaded:
+            await ctx.send(f"{extension.capitalize()} extension is already loaded.")
 
     @commands.command(name='unload', help="Unloads an extension.")
     @commands.is_owner()
-    async def unload(self, ctx: commands.Context, extension):
-        extension = self.shorten_ext(extension)
+    async def unload(self, ctx: commands.Context, extension: str):
+        try:
+            self.client.unload_extension(f'cogs.{self.shorten_ext(extension)}')
+            await ctx.send(f"Unloaded {extension} extension.")
+        except commands.ExtensionNotLoaded:
+            await ctx.send(f"{extension.capitalize()} extension is not loaded.")
 
     @commands.command(name='reload',aliases=['refresh'],
                       help="Reloads an extension")
-    async def reload(self, ctx: commands.Context, extension):
-        extension = self.shorten_ext(extension)
+    @commands.is_owner()
+    async def reload(self, ctx: commands.Context, extension: str):
+        try:
+            self.client.reload_extension(f'cogs.{self.shorten_ext(extension)}')
+        except commands.ExtensionNotLoaded:
+            self.client.load_extension(f'cogs.{self.shorten_ext(extension)}')
+        finally:
+            await ctx.send(f"Reloaded {extension} extension.")
 
 def setup(client: commands.Bot):
     client.add_cog(Manager(client))
