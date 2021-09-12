@@ -11,6 +11,7 @@ for cog in os.listdir("./cogs"):
     if cog.endswith('.py'):
         cog = cog[:-3]
         client.load_extension(f'cogs.{cog}')
+        print(f"loaded {cog}")
 
 client.load_extension("manager")
 client.run(token)
