@@ -12,10 +12,11 @@ for cog in os.listdir("./cogs"):
         cog = cog[:-3]
         client.load_extension(f'cogs.{cog}')
         print(f"loaded {cog}")
+
 other_cogs = ["manager", "jishaku"]
 for cog in other_cogs:
     try:
-        client.load_extension("manager")
+        client.load_extension(cog)
     except:
         pass
 
