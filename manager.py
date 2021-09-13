@@ -9,6 +9,7 @@ class Manager(commands.Cog, name="Manager",
         self.client = client
 
     def shorten_ext(self, extension):
+        if extension == "utils": extension = "utilities"
         """extends the extension's name.
         etc:
             utils = utilities
@@ -19,8 +20,9 @@ class Manager(commands.Cog, name="Manager",
     @commands.command(name='load', help="Loads an extension.")
     @commands.is_owner()
     async def load(self, ctx: commands.Context, extension: str):
+        extension = self.shorten_ext(extension.capitalize())
         try:
-            self.client.load_extension(f'cogs.{self.shorten_ext(extension)}')
+            self.client.load_extension(f'cogs.{extension}')
             await ctx.send(f"Loaded {extension}")
         except commands.ExtensionAlreadyLoaded:
             await ctx.send(f"{extension.capitalize()} extension is already loaded.")
@@ -28,8 +30,9 @@ class Manager(commands.Cog, name="Manager",
     @commands.command(name='unload', help="Unloads an extension.")
     @commands.is_owner()
     async def unload(self, ctx: commands.Context, extension: str):
+        extension = self.shorten_ext(extension)
         try:
-            self.client.unload_extension(f'cogs.{self.shorten_ext(extension)}')
+            self.client.unload_extension(f'cogs.{extension}')
             await ctx.send(f"Unloaded {extension} extension.")
         except commands.ExtensionNotLoaded:
             await ctx.send(f"{extension.capitalize()} extension is not loaded.")
@@ -38,10 +41,11 @@ class Manager(commands.Cog, name="Manager",
                       help="Reloads an extension")
     @commands.is_owner()
     async def reload(self, ctx: commands.Context, extension: str):
+        extension = self.shorten_ext(extension)
         try:
-            self.client.reload_extension(f'cogs.{self.shorten_ext(extension)}')
+            self.client.reload_extension(f'cogs.{extension}')
         except commands.ExtensionNotLoaded:
-            self.client.load_extension(f'cogs.{self.shorten_ext(extension)}')
+            self.client.load_extension(f'cogs.{extension}')
         finally:
             await ctx.send(f"Reloaded {extension} extension.")
 
