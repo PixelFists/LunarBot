@@ -5,7 +5,10 @@ def config():
     with open('token.json') as f:
         return json.load(f)['token']
 token = config()
-client = commands.Bot(command_prefix=["lunar ", 'l!', ';'])
+intents = discord.Intents.default()
+intents.members = True
+intents.presences = True
+client = commands.Bot(command_prefix=["lunar ", 'l!', ';'], intents=intents)
 
 for cog in os.listdir("./cogs"):
     if cog.endswith('.py'):
