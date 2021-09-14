@@ -10,7 +10,8 @@ class Utilities(commands.Cog,
 
     @commands.command(name="whois",
                       aliases=['userinfo'],
-                      help="Shows info about a user.")
+                      help="Shows info about a user.",
+                      usage='whois PixelFists#5791')
     @commands.guild_only()
     async def whois(self, ctx: commands.Context, user: Union[discord.Member, discord.User]=None):
         if user is None:

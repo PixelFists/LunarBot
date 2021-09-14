@@ -19,7 +19,7 @@ class Manager(commands.Cog, name="Manager",
         """
         return extension
 
-    @commands.command(name='load', help="Loads an extension.")
+    @commands.command(name='load', help="Loads an extension.", usage='load utils')
     @commands.is_owner()
     async def load(self, ctx: commands.Context, *, extension: str):
         extension = self.shorten_ext(extension.capitalize())
@@ -29,7 +29,7 @@ class Manager(commands.Cog, name="Manager",
         except commands.ExtensionAlreadyLoaded:
             await ctx.send(f"{extension.capitalize()} extension is already loaded.")
 
-    @commands.command(name='unload', help="Unloads an extension.")
+    @commands.command(name='unload', help="Unloads an extension.", usage='unload utils')
     @commands.is_owner()
     async def unload(self, ctx: commands.Context, *, extension: str):
         extension = self.shorten_ext(extension)
@@ -40,7 +40,8 @@ class Manager(commands.Cog, name="Manager",
             await ctx.send(f"{extension.capitalize()} extension is not loaded.")
 
     @commands.command(name='reload',aliases=['refresh'],
-                      help="Reloads an extension.")
+                      help="Reloads an extension.",
+                      usage='reload utils')
     @commands.is_owner()
     async def reload(self, ctx: commands.Context, *, extension: str):
         extension = self.shorten_ext(extension)
@@ -51,7 +52,8 @@ class Manager(commands.Cog, name="Manager",
             self.client.load_extension(f'cogs.{extension}')
             await ctx.send(f"Reloaded {extension} extension.")
 
-    @commands.command(name='enable', help="Enables a command.")
+    @commands.command(name='enable', help="Enables a command.",
+                      usage='enable ping')
     @commands.is_owner()
     async def enable(self, ctx: commands.Context, *, command):
         command = self.client.get_command(command)
@@ -65,7 +67,7 @@ class Manager(commands.Cog, name="Manager",
         else:
             await ctx.send("This command is already enabled.")
 
-    @commands.command(name='disable', help='Disables a command.')
+    @commands.command(name='disable', help='Disables a command.', usage='disable ping')
     @commands.is_owner()
     async def disable(self, ctx: commands.Context, *, command):
         command = self.client.get_command(command)
@@ -79,7 +81,7 @@ class Manager(commands.Cog, name="Manager",
         else:
             await ctx.send("This command is already disabled.")
 
-    @commands.command(name="toggle", help="Toggles a command.")
+    @commands.command(name="toggle", help="Toggles a command.", usage='toggle ping')
     @commands.is_owner()
     async def toggle(self, ctx: commands.Context, *, command):
         command = self.client.get_command(command)
