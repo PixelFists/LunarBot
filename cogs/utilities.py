@@ -21,6 +21,10 @@ class Utilities(commands.Cog,
         embed.add_field(name="Joined at", value=user.joined_at)
         embed.add_field(name="Top role", value=user.top_role)
         embed.add_field(name="User ID", value=user.id)
+        roles = ''
+        for role in user.roles: #type: discord.Role
+            roles += f'{role.mention}' if role.name != "@everyone" else ''
+        embed.add_field(name="Roles", value=roles)
         if user.bot:
             embed.title = user + " (BOT)"
         await ctx.send(embed=embed)
