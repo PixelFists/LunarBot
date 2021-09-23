@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 
 class HelpCMD(commands.MinimalHelpCommand):
+    hidden_cog = ["Events", "Manager"]
     async def send_bot_help(self, mapping):
         embed = discord.Embed(title="Help",
                               description=f"Use {self.context.prefix}help [command | category] for more info.")
@@ -9,13 +10,13 @@ class HelpCMD(commands.MinimalHelpCommand):
             try:
                 cog_name = getattr(cog, "qualified_name")
                 cog_desc = getattr(cog, "description", '')
-                embed.add_field(name=cog_name, value=cog_desc if cog_desc else "🤔")
+                if str(cog_name).lower() not in [c.lower() for c in self.hidden_cog]:
+                    embed.add_field(name=cog_name, value=cog_desc if cog_desc else "🤔")
             except:
                 pass
 
         channel = self.get_destination()
         await channel.send(embed=embed)
-
 
     async def send_cog_help(self, cog: commands.Cog):
         embed = discord.Embed(title=cog.qualified_name, description=cog.description if cog.description else "🤔")
