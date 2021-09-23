@@ -8,10 +8,7 @@ def config():
 
 def main():
     token = config()
-    intents = discord.Intents.default()
-    intents.members = True
-    intents.presences = True
-    client = commands.Bot(command_prefix=["lunar ", 'l!', ';'], intents=intents,
+    client = commands.Bot(command_prefix=["lunar ", 'l!', ';'], intents=discord.Intents.all(),
                           help_command=HelpCMD())
 
     # makes cogs non cap sensitive
