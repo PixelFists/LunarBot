@@ -14,13 +14,13 @@ class Utilities(commands.Cog,
                       usage='whois PixelFists#5791')
     @commands.guild_only()
     async def whois(self, ctx: commands.Context, user: Union[discord.Member, discord.User]=None):
-        if user is None:
-            user = ctx.author
+        user = user or ctx.author
         embed = discord.Embed(title=str(user), color=user.color)
         embed.set_thumbnail(url=user.avatar_url)
         embed.add_field(name="Created at", value=user.created_at)
         embed.add_field(name="Joined at", value=user.joined_at)
         embed.add_field(name="Top role", value=user.top_role)
+        embed.add_field(name="User ID", value=user.id)
         if user.bot:
             embed.title = user + " (BOT)"
         await ctx.send(embed=embed)
