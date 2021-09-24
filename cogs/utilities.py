@@ -16,7 +16,7 @@ class Utilities(commands.Cog,
     async def whois(self, ctx: commands.Context, user: Union[discord.Member, discord.User]=None):
         user = user or ctx.author
         embed = discord.Embed(title=str(user), color=user.color)
-        embed.set_thumbnail(url=user.avatar_url)
+        embed.set_thumbnail(url=user.avatar.url)
         embed.add_field(name="Created at", value=user.created_at)
         embed.add_field(name="Joined at", value=user.joined_at)
         embed.add_field(name="Top role", value=user.top_role)
@@ -38,7 +38,7 @@ class Utilities(commands.Cog,
         embed = discord.Embed(title=guild.name)
         if guild.description is not None:
             embed.description = guild.description
-        embed.set_thumbnail(url=guild.icon_url)
+        embed.set_thumbnail(url=guild.icon.url)
         embed.add_field(name="Owner", value=guild.owner)
         embed.add_field(name="Server ID", value=guild.id)
         embed.add_field(name="Channel count", value=len(guild.channels))
