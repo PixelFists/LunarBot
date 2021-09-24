@@ -1,4 +1,4 @@
-import discord, json, os
+import discord, json, os, aiohttp
 from discord.ext import commands
 from helpcmd import HelpCMD
 def config():
@@ -19,6 +19,8 @@ def main():
             cog = cog[:-3]
             client.load_extension(f'cogs.{cog}')
             print(f"loaded {cog}")
+
+    client.session = aiohttp.ClientSession()
 
     other_cogs = ["manager", "jishaku"]
     for cog in other_cogs:
