@@ -2,7 +2,8 @@ from discord.ext.commands import Cog, Bot, command, Context
 from aiohttp import ClientSession
 from discord import Embed
 
-class Fun(Cog):
+class Fun(Cog,
+          name="Fun", description="Fun commands."):
     def __init__(self, client: Bot):
         self.client = client
 
@@ -18,7 +19,6 @@ class Fun(Cog):
 
     @command(name="darkjoke", aliases=["dj"], help="Sends a dark joke.")
     async def dark_joke(self, ctx: Context):
-        triggers = ""
         async with ClientSession() as cs:
             async with cs.get("https://v2.jokeapi.dev/joke/Dark") as resp:
                 data = await resp.json()
@@ -26,8 +26,8 @@ class Fun(Cog):
                 for key, item in data["flags"].items():
                     if item:
                         keys.append(key)
-                        triggers = ', '.join(keys)
 
+        triggers = ', '.join(keys) if keys else ""
         embed = Embed(title=f"Warning: {triggers}\n\n||{data['joke'] if data['type'] == 'single' else data['setup']}||" \
                       if triggers else f"{data['joke'] if data['type'] == 'single' else data['setup']}",
                       description=f"{data['delivery'] if data['type'] == 'twopart' else ''}" if not triggers \
